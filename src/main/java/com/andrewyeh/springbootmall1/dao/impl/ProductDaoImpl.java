@@ -40,7 +40,13 @@ public class ProductDaoImpl implements ProductDao {
         }
 
         //已經有defaultValue了，所以不需要if判斷
+        //排序
         sql += " ORDER BY " + productQueryParam.getOrderBy() + " " + productQueryParam.getSort();
+
+        //分頁
+        sql += " LIMIT :limit OFFSET :offset";
+        map.put("limit", productQueryParam.getLimit());
+        map.put("offset", productQueryParam.getOffset());
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 

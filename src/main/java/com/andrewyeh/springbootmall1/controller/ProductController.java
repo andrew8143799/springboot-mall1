@@ -6,13 +6,17 @@ import com.andrewyeh.springbootmall1.dto.ProductRequest;
 import com.andrewyeh.springbootmall1.model.Product;
 import com.andrewyeh.springbootmall1.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 public class ProductController {
 
@@ -27,13 +31,18 @@ public class ProductController {
                                                      //根據欄位排序(預設值為created_date)
                                                      @RequestParam (defaultValue = "created_date") String orderBy,
                                                      //排序方法(asc or desc)
-                                                     @RequestParam (defaultValue = "desc") String sort){
+                                                     @RequestParam (defaultValue = "desc") String sort,
+                                                     //分頁 (limit: 取得幾筆商品數據 offset:要跳過多少筆數據)
+                                                     @RequestParam (defaultValue = "5") @Max(1000) @Min(0) Integer limit,
+                                                     @RequestParam (defaultValue = "0") @Min(0) Integer offset){
 
         ProductQueryParam productQueryParam = new ProductQueryParam();
         productQueryParam.setCategory(category);
         productQueryParam.setSearch(search);
         productQueryParam.setOrderBy(orderBy);
         productQueryParam.setSort(sort);
+        productQueryParam.setLimit(limit);
+        productQueryParam.setOffset(offset);
 
         List<Product> productList =  productService.getProducts(productQueryParam);
 
