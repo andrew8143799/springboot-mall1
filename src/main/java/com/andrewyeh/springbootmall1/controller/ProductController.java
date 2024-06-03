@@ -5,6 +5,7 @@ import com.andrewyeh.springbootmall1.dto.ProductQueryParam;
 import com.andrewyeh.springbootmall1.dto.ProductRequest;
 import com.andrewyeh.springbootmall1.model.Product;
 import com.andrewyeh.springbootmall1.service.ProductService;
+import com.andrewyeh.springbootmall1.util.Page;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -25,7 +26,7 @@ public class ProductController {
 
     //查詢商品列表
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(//查詢條件 filtering
+    public ResponseEntity<Page<Product>> getProducts(//查詢條件 filtering
                                                      @RequestParam (required = false) ProductCategory category,
                                                      @RequestParam (required = false) String search,
                                                      //根據欄位排序(預設值為created_date)
@@ -44,9 +45,20 @@ public class ProductController {
         productQueryParam.setLimit(limit);
         productQueryParam.setOffset(offset);
 
+        //取得productList
         List<Product> productList =  productService.getProducts(productQueryParam);
 
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        //取得 product 總比數
+        Integer total = productService.countProducts(productQueryParam);
+
+        //分頁responseBody的值
+        Page<Product> page = new Page();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
 

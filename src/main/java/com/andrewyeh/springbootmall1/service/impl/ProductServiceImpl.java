@@ -15,6 +15,11 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     @Override
+    public Integer countProducts(ProductQueryParam productQueryParam) {
+        return productDao.countProducts(productQueryParam);
+    }
+
+    @Override
     public List<Product> getProducts(ProductQueryParam productQueryParam) {
         return productDao.getProducts(productQueryParam);
     }
