@@ -31,13 +31,16 @@ public class ProductDaoImpl implements ProductDao {
 
         if(productQueryParam.getCategory() != null){
             sql += " AND category = :category";
-            map.put("category", productQueryParam.getCategory());
+            map.put("category", productQueryParam.getCategory().name());
         }
 
         if(productQueryParam.getSearch() != null){
             sql += " AND product_name LIKE :search";
             map.put("search", "%" + productQueryParam.getSearch() + "%");
         }
+
+        //已經有defaultValue了，所以不需要if判斷
+        sql += " ORDER BY " + productQueryParam.getOrderBy() + " " + productQueryParam.getSort();
 
         List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 

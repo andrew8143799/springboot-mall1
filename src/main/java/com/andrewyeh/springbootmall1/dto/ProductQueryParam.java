@@ -6,6 +6,8 @@ public class ProductQueryParam {
 
     private ProductCategory productCategory;
     private String search;
+    private String orderBy;
+    private String sort;
 
     public ProductCategory getCategory() {
         return productCategory;
@@ -21,5 +23,21 @@ public class ProductQueryParam {
 
     public void setSearch(String search) {
         this.search = search;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
     }
 }
