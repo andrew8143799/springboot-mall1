@@ -1,5 +1,6 @@
 package com.andrewyeh.springbootmall1.controller;
 
+import com.andrewyeh.springbootmall1.constant.ProductCategory;
 import com.andrewyeh.springbootmall1.dto.ProductRequest;
 import com.andrewyeh.springbootmall1.model.Product;
 import com.andrewyeh.springbootmall1.service.ProductService;
@@ -19,8 +20,10 @@ public class ProductController {
 
     //查詢商品列表
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList =  productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(@RequestParam(required = false) ProductCategory category,
+                                                     @RequestParam(required = false) String search){
+
+        List<Product> productList =  productService.getProducts(category, search);
 
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
