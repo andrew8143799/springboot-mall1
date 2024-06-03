@@ -25,18 +25,10 @@ public class ProductDaoImpl implements ProductDao {
     public Integer countProducts(ProductQueryParam productQueryParam) {
         String sql = "SELECT count(*) FROM product WHERE 1=1";
 
-        //查詢條件
         Map<String, Object> map = new HashMap<>();
 
-        if(productQueryParam.getCategory() != null){
-            sql += " AND category = :category";
-            map.put("category", productQueryParam.getCategory().name());
-        }
-
-        if(productQueryParam.getSearch() != null){
-            sql += " AND product_name LIKE :search";
-            map.put("search", "%" + productQueryParam.getSearch() + "%");
-        }
+        //查詢條件
+        sql = addFilteringSql(sql, map, productQueryParam);
 
         Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
 
@@ -53,15 +45,7 @@ public class ProductDaoImpl implements ProductDao {
         Map<String, Object> map = new HashMap<>();
 
         //查詢條件
-        if(productQueryParam.getCategory() != null){
-            sql += " AND category = :category";
-            map.put("category", productQueryParam.getCategory().name());
-        }
-
-        if(productQueryParam.getSearch() != null){
-            sql += " AND product_name LIKE :search";
-            map.put("search", "%" + productQueryParam.getSearch() + "%");
-        }
+        sql = addFilteringSql(sql, map, productQueryParam);
 
         //已經有defaultValue了，所以不需要if判斷
         //排序
@@ -163,5 +147,19 @@ public class ProductDaoImpl implements ProductDao {
         namedParameterJdbcTemplate.update(sql, map);
     }
 
+    //提煉出重複使用的程式
+    private String addFilteringSql(String sql, Map<String, Object> map, ProductQueryParam productQueryParam){
 
+        if(productQueryParam.getCategory() != null){
+            sql += " AND category = :category";
+            map.put("category", productQueryParam.getCategory().name());
+        }
+
+        if(productQueryParam.getSearch() != null){
+            sql += " AND product_name LIKE :search";
+            map.put("search", "%" + productQueryParam.getSearch() + "%");
+        }
+
+        return sql;
+    }
 }
