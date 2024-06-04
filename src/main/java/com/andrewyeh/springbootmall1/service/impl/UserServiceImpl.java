@@ -2,6 +2,7 @@ package com.andrewyeh.springbootmall1.service.impl;
 
 
 import com.andrewyeh.springbootmall1.dao.UserDao;
+import com.andrewyeh.springbootmall1.dto.UserLoginRequest;
 import com.andrewyeh.springbootmall1.dto.UserRegisterRequest;
 import com.andrewyeh.springbootmall1.model.User;
 import com.andrewyeh.springbootmall1.service.UserService;
@@ -29,10 +30,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    @Override
     public Integer register(UserRegisterRequest userRegisterRequest){
 
         //檢查Email是否已經註冊
-        User user = userDao.getUserByEmail(userRegisterRequest);
+        User user = userDao.getUserByEmail(userRegisterRequest.getEmail());
 
         if(user != null){
 
@@ -42,6 +44,29 @@ public class UserServiceImpl implements UserService {
 
         //註冊新帳號
         return userDao.createUser(userRegisterRequest);
+
+    }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest){
+
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+
+        if(user == null){
+            log.warn("該Email {} 尚未註冊", userLoginRequest.getEmail());
+
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        //比較字串的質一定要用equals();
+        if(user.getPassword().equals(userLoginRequest.getPassword())){
+            return user;
+        }else{
+
+            log.warn("該帳號不存在或是密碼錯誤");
+            throw new ResponseStatusException((HttpStatus.BAD_REQUEST));
+
+        }
 
     }
 
