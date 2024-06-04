@@ -21,10 +21,12 @@ import java.util.List;
 @RestController
 public class ProductController {
 
+
+
     @Autowired
     private ProductService productService;
 
-    //查詢商品列表
+    //查詢商品列表(指定條件)
     @GetMapping("/products")
     public ResponseEntity<Page<Product>> getProducts(//查詢條件 filtering
                                                      @RequestParam (required = false) ProductCategory category,
@@ -45,23 +47,24 @@ public class ProductController {
         productQueryParam.setLimit(limit);
         productQueryParam.setOffset(offset);
 
-        //取得productList
+        //取得productList(將存放在page當中，再回傳)
         List<Product> productList =  productService.getProducts(productQueryParam);
 
         //取得 product 總比數
         Integer total = productService.countProducts(productQueryParam);
 
-        //分頁responseBody的值
+        //分頁responseBody的值，存放在Page類別中
         Page<Product> page = new Page();
         page.setLimit(limit);
         page.setOffset(offset);
         page.setTotal(total);
+        //將productList以Json陣列回傳前端
         page.setResults(productList);
 
         return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
-
+    //使用id查詢商品
     @GetMapping("/products/{productId}")
     public ResponseEntity<Product> getProduct(@PathVariable Integer productId){
 
