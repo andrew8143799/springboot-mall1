@@ -43,7 +43,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.price", notNullValue()))
                 .andExpect(jsonPath("$.stock", notNullValue()))
                 .andExpect(jsonPath("$.description", notNullValue()))
-                .andExpect(jsonPath("$.createdDate", notNullValue()))
+                .andExpect(jsonPath("$.createDate", notNullValue()))
                 .andExpect(jsonPath("$.lastModifiedDate", notNullValue()));
     }
 
@@ -82,7 +82,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.price", equalTo(100)))
                 .andExpect(jsonPath("$.stock", equalTo(2)))
                 .andExpect(jsonPath("$.description", nullValue()))
-                .andExpect(jsonPath("$.createdDate", notNullValue()))
+                .andExpect(jsonPath("$.createDate", notNullValue()))
                 .andExpect(jsonPath("$.lastModifiedDate", notNullValue()));
     }
 
@@ -129,7 +129,7 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$.price", equalTo(100)))
                 .andExpect(jsonPath("$.stock", equalTo(2)))
                 .andExpect(jsonPath("$.description", nullValue()))
-                .andExpect(jsonPath("$.createdDate", notNullValue()))
+                .andExpect(jsonPath("$.createDate", notNullValue()))
                 .andExpect(jsonPath("$.lastModifiedDate", notNullValue()));
     }
 
