@@ -7,20 +7,20 @@ import java.util.Date;
 
 public class User {
 
-    @JsonProperty("User ID")
+//    @JsonProperty("User ID")
     private Integer userId;
 
-    @JsonProperty("Email")
+//    @JsonProperty("Email")
     private String email;
 
     //不會將password傳回前端
     @JsonIgnore
     private String password;
 
-    @JsonProperty("Date Created")
+//    @JsonProperty("Date Created")
     private Date createdDate;
 
-    @JsonProperty("Last Modified Date")
+//    @JsonProperty("Last Modified Date")
     private Date lastModifiedDate;
 
     public Integer getUserId() {

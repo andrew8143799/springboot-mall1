@@ -28,6 +28,7 @@ public class UserController {
 
     }
 
+    //可以加上再次確認密碼的功能!
     @PostMapping("/users/register")
     public ResponseEntity<User> register(@RequestBody @Valid
                                              UserRegisterRequest userRegisterRequest){
@@ -46,6 +47,16 @@ public class UserController {
          User user = userService.login(userLoginRequest);
 
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    //修改密碼
+    @PutMapping("/users/{userId}/change_password")
+    public ResponseEntity<User> changePassword(@PathVariable Integer userId,
+                                               @RequestBody @Valid
+                                               UserLoginRequest userLoginRequest){
+
+
+        return null;
     }
 
 }
