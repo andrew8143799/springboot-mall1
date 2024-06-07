@@ -1,14 +1,30 @@
 package com.andrewyeh.springbootmall1.model;
 
 import java.util.Date;
+import java.util.List;
+
 //for order table
 public class Order {
+
+    //擴充
+
 
     private Integer orderId;
     private Integer userId;
     private Integer totalAmount;
     private Date createdDate;
     private Date lastModifiedDate;
+
+    private List<OrderItem> orderItemList;
+
+
+    public List<OrderItem> getOrderItemList() {
+        return orderItemList;
+    }
+
+    public void setOrderItemList(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
+    }
 
     public Integer getOrderId() {
         return orderId;

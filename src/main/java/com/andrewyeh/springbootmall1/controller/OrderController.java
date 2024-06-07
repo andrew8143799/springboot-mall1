@@ -2,6 +2,7 @@ package com.andrewyeh.springbootmall1.controller;
 
 import com.andrewyeh.springbootmall1.dto.CreateOrderRequest;
 import com.andrewyeh.springbootmall1.dto.PurchaseItem;
+import com.andrewyeh.springbootmall1.model.Order;
 import com.andrewyeh.springbootmall1.service.OrderService;
 import com.andrewyeh.springbootmall1.service.impl.OrderServiceImpl;
 import jakarta.validation.Valid;
@@ -29,7 +30,9 @@ public class OrderController {
 
         Integer orderId = orderService.createOrder(userId ,createOrderRequest);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderId);
+        Order order = orderService.getOrderById(orderId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order);
     }
 
 
